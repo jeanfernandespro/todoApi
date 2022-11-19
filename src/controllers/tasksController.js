@@ -35,7 +35,7 @@ const getByLogin = async (request, response) => {
       { user: JSON.stringify(user[0]) },
       authorizationToken.PRIVATE_KEY,
       {
-        expiresIn: '30s',
+        expiresIn: '1d',
       }
     );
     return response.status(200).json({ data: { user: user, token } });
