@@ -1,5 +1,5 @@
 const connection = require('./connection');
-const dateTask = require('../functions/dateTask.js');
+const getDate = require('../functions/getDate');
 
 const getAll = async () => {
   const [tasks] = await connection.execute('SELECT * FROM tasks');
@@ -35,7 +35,7 @@ const getByLogin = async (email, password) => {
 
 const createTask = async (task) => {
   const { title } = task;
-  const dateCreate = dateTask.dateTask();
+  const dateCreate = getDate.getDate();
   const query =
     'INSERT INTO tasks(title, status, created_at, update_at) VALUES (?, ?, ?, ?)';
   const [createdTask] = await connection.execute(query, [
@@ -73,7 +73,7 @@ const deleteTask = async (id) => {
 
 const updateTask = async (id, task) => {
   const { title, status } = task;
-  const dateUpdate = dateTask.dateTask();
+  const dateUpdate = getDate.getDate();
   const query =
     'UPDATE tasks SET title = ?, update_at = ?, status = ? WHERE id = ?';
   const [updateTask] = await connection.execute(query, [
