@@ -29,17 +29,6 @@ const validateId = (request, response, next) => {
   next();
 };
 
-// const validateLogin = (request, response, next) => {
-//   const { body } = request;
-//   if (body.email === undefined) {
-//     return response.status(400).json({ message: 'Status is required!' });
-//   }
-//   if (body.status === '') {
-//     return response.status(400).json({ message: 'Status cannot be empty!' });
-//   }
-//   next();
-// };
-
 const validateUser = (request, response, next) => {
   const { body } = request;
   if (body.real_name === undefined) {
