@@ -1,4 +1,5 @@
 const connection = require('./connection');
+const getDate = require('../functions/getDate');
 
 const getAllUsers = async () => {
   const [users] = await connection.execute('SELECT * FROM users');
