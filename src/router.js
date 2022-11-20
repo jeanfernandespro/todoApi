@@ -21,9 +21,9 @@ router.get('/tasks', tasksController.getAll);
 
 router.get('/users/:id', validate.validateId, usersController.getByIdUser);
 
-router.get('/tasks/:id', validate.validateId, tasksController.getById);
-
 router.get('/users/:id', validate.validateId, usersController.getByIdUser);
+
+router.get('/tasks/:id', validate.validateId, tasksController.getById);
 
 router.post('/tasks', validate.validateBody, tasksController.createTask);
 
