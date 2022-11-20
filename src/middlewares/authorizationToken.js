@@ -3,8 +3,8 @@ require('dotenv').config();
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const user = {
-  name: 'Jean Fernandes',
-  email: 'jean@example.com',
+  name: '',
+  email: '',
 };
 
 function tokenValidated(request, response, next) {
