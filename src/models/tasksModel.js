@@ -6,31 +6,11 @@ const getAll = async () => {
   return tasks;
 };
 
-const getAllUsers = async () => {
-  const [users] = await connection.execute('SELECT * FROM users');
-  return users;
-};
-
 const getById = async (id) => {
   const [tasks] = await connection.execute('SELECT * FROM tasks WHERE id = ?', [
     id,
   ]);
   return tasks;
-};
-
-const getByIdUser = async (id) => {
-  const [users] = await connection.execute('SELECT * FROM users WHERE id = ?', [
-    id,
-  ]);
-  return users;
-};
-
-const getByLogin = async (email, password) => {
-  const [users] = await connection.execute(
-    'SELECT email,user_password FROM users WHERE email = ? and user_password = ?',
-    [email, password]
-  );
-  return users;
 };
 
 const createTask = async (task) => {
@@ -45,24 +25,6 @@ const createTask = async (task) => {
     'Not updated!',
   ]);
   return { insertId: createdTask.insertId };
-};
-
-const createUser = async (user) => {
-  const realName = user.real_name;
-  const cellPhone = user.phone;
-  const userEmail = user.email;
-  const userPassword = user.user_password;
-  const query =
-    'INSERT INTO users(username, real_name, phone, email, user_password, token) VALUES (?, ?, ?, ?, ?, ?)';
-  const [createdUser] = await connection.execute(query, [
-    'username',
-    realName,
-    cellPhone,
-    userEmail,
-    userPassword,
-    'token',
-  ]);
-  return { insertId: createdUser.insertId };
 };
 
 const deleteTask = async (id) => {
@@ -87,12 +49,8 @@ const updateTask = async (id, task) => {
 
 module.exports = {
   getAll,
-  getAllUsers,
   getById,
-  getByIdUser,
   createTask,
-  createUser,
   deleteTask,
   updateTask,
-  getByLogin,
 };
