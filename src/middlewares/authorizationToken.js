@@ -9,12 +9,10 @@ const user = {
 
 function tokenValidated(request, response, next) {
   const [, token] = request.headers.authorization?.split(' ') || [' ', ' '];
-  console.log('token do middleware', token);
   if (!token)
     return response.status(401).send('Access denied. No token provided.');
   try {
     const payload = jsonwebtoken.verify(token, PRIVATE_KEY);
-    console.log(payload);
     const userIdFromToken = typeof payload !== 'string' && payload.user;
     if (!user && !userIdFromToken) {
       return response.send(401).json({ message: 'Invalid token' });
