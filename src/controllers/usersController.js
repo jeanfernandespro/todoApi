@@ -7,7 +7,7 @@ const getAllUsers = async (_request, response) => {
   return response.status(200).json(users);
 };
 
-const getByIdUser = async (request, response) => {
+const getUserByIdUser = async (request, response) => {
   const users = await usersModel.getByIdUser(request.params.id);
   return response.status(200).json(users);
 };
@@ -42,7 +42,7 @@ const createUser = async (request, response) => {
 
 module.exports = {
   getAllUsers,
-  getByIdUser,
+  getUserByIdUser,
   getByLogin,
   createUser,
 };

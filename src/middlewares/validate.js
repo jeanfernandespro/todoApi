@@ -1,4 +1,4 @@
-const validateBody = (request, response, next) => {
+const validateTitle = (request, response, next) => {
   const { body } = request;
   if (body.title === undefined) {
     return response.status(400).json({ message: 'Title is required!' });
@@ -70,7 +70,7 @@ const validateListUser = (request, response, next) => {
 };
 
 module.exports = {
-  validateBody,
+  validateTitle,
   validateStatus,
   validateId,
   validateUser,

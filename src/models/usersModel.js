@@ -1,12 +1,12 @@
 const connection = require('./connection');
-const getDate = require('../functions/getDate');
+//const getDate = require('../functions/getDate');
 
 const getAllUsers = async () => {
   const [users] = await connection.execute('SELECT * FROM users');
   return users;
 };
 
-const getByIdUser = async (id) => {
+const getUserByIdUser = async (id) => {
   const [users] = await connection.execute('SELECT * FROM users WHERE id = ?', [
     id,
   ]);
@@ -41,7 +41,7 @@ const createUser = async (user) => {
 
 module.exports = {
   getAllUsers,
-  getByIdUser,
+  getUserByIdUser,
   createUser,
   getByLogin,
 };
