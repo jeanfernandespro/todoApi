@@ -15,9 +15,9 @@ const getByIdUser = async (id) => {
 
 const getByLogin = async (email, password) => {
   const [users] = await connection.execute(
-    'SELECT email,user_password FROM users WHERE email = ? and user_password = ?',
+    'SELECT email, id FROM users WHERE email = ? and user_password = ?',
     [email, password]
-  );
+  );  
   return users;
 };
 

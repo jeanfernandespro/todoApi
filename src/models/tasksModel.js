@@ -13,16 +13,26 @@ const getById = async (id) => {
   return tasks;
 };
 
-const createTask = async (task) => {
+const getByIdUser = async (id) => {
+  const [tasks] = await connection.execute(
+    'SELECT * FROM tasks WHERE id_user = ?',
+    [id]
+  );
+  return tasks;
+};
+
+const createTask = async (id, task) => {
   const { title } = task;
   const dateCreate = getDate.getDate();
+  const id_user = id;
   const query =
-    'INSERT INTO tasks(title, status, created_at, update_at) VALUES (?, ?, ?, ?)';
+    'INSERT INTO tasks(title, status, created_at, update_at, id_user) VALUES (?, ?, ?, ?, ?)';
   const [createdTask] = await connection.execute(query, [
     title,
     'Not started!',
     dateCreate,
     'Not updated!',
+    id_user,
   ]);
   return { insertId: createdTask.insertId };
 };
@@ -50,6 +60,7 @@ const updateTask = async (id, task) => {
 module.exports = {
   getAll,
   getById,
+  getByIdUser,
   createTask,
   deleteTask,
   updateTask,

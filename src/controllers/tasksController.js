@@ -10,8 +10,15 @@ const getById = async (request, response) => {
   return response.status(200).json(tasks);
 };
 
+const getByIdUser = async (request, response) => {
+  const tasks = await tasksModel.getByIdUser(request.headers.user.id);
+  return response.status(200).json(tasks);
+};
+
 const createTask = async (request, response) => {
-  const createdTask = await tasksModel.createTask(request.body);
+  const id = request.headers.user.id;
+  console.log(id);
+  const createdTask = await tasksModel.createTask(id, request.body);
   return response.status(201).json(createdTask);
 };
 
@@ -30,6 +37,7 @@ const updateTask = async (request, response) => {
 module.exports = {
   getAll,
   getById,
+  getByIdUser,
   createTask,
   deleteTask,
   updateTask,

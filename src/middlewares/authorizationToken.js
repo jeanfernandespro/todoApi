@@ -3,13 +3,13 @@ require('dotenv').config();
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const user = {
-  name: '',
+  name: '', 
   email: '',
 };
 
 function tokenValidated(request, response, next) {
   const [, token] = request.headers.authorization?.split(' ') || [' ', ' '];
-  if (!token)
+  if (!token) 
     return response.status(401).send('Access denied. No token provided.');
   try {
     const payload = jsonwebtoken.verify(token, PRIVATE_KEY);

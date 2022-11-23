@@ -17,12 +17,12 @@ const getByLogin = async (request, response) => {
     const user = await usersModel.getByLogin(
       request.body.email,
       request.body.password
-    );
+    );  
     const correctPassword = user && user.length > 0;
     if (!correctPassword)
       return response.status(401).send('Password or E-mail incorrect');
     const token = jsonwebtoken.sign(
-      { user: JSON.stringify(user[0]) },
+      { user: user[0] },
       authorizationToken.PRIVATE_KEY,
       {
         expiresIn: '1d',
