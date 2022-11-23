@@ -17,8 +17,6 @@ router.post('/users/', usersController.getByLogin);
 
 router.use('*', authorizationToken.tokenValidated);
 
-//router.get('/tasks', tasksController.getAll); 
-
 router.get('/tasks', tasksController.getByIdUser);
 
 router.get('/users/:id', validate.validateId, usersController.getByIdUser);

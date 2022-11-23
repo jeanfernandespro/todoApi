@@ -28,7 +28,7 @@ const getByLogin = async (request, response) => {
         expiresIn: '1d',
       }
     );
-    return response.status(200).json({ data: { user: user, token } });
+    return response.status(200).json({ data: { user: user[0], token } });
   } catch (error) {
     console.log(error);
     return response.send(error);
