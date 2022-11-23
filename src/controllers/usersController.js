@@ -17,7 +17,7 @@ const getByLogin = async (request, response) => {
     const user = await usersModel.getByLogin(
       request.body.email,
       request.body.password
-    );  
+    );
     const correctPassword = user && user.length > 0;
     if (!correctPassword)
       return response.status(401).send('Password or E-mail incorrect');

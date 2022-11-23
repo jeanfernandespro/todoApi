@@ -1,3 +1,4 @@
+// Starta o server puxando as config do app.js e do .env
 const app = require('./app');
 require('dotenv').config();
 
