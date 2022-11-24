@@ -20,10 +20,7 @@ const getByLogin = async (email, password) => {
   );
   const comp = await bcrypt.compare(password, encryptedPass[0].user_password);
   if (!comp) {
-    const [users] = await connection.execute(
-      'SELECT email, id FROM users WHERE user_password = ?',
-      [password]
-    );
+    const users = [];
     return users;
   }
   const [users] = await connection.execute(
