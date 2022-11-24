@@ -1,6 +1,6 @@
 const jsonwebtoken = require('jsonwebtoken');
-const authorizationToken = require('../middlewares/authorizationToken');
 const usersModel = require('../models/usersModel');
+require('dotenv').config();
 
 const getAllUsers = async (_request, response) => {
   const users = await usersModel.getAllUsers();
@@ -23,7 +23,7 @@ const getByLogin = async (request, response) => {
       return response.status(401).send('Password or E-mail incorrect');
     const token = jsonwebtoken.sign(
       { user: user[0] },
-      authorizationToken.PRIVATE_KEY,
+      process.env.PRIVATE_KEY,
       {
         expiresIn: '1d',
       }

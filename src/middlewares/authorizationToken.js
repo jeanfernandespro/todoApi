@@ -1,20 +1,14 @@
 const jsonwebtoken = require('jsonwebtoken');
 require('dotenv').config();
 
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
-const user = {
-  name: 'name',
-  email: 'email',
-};
-
 function tokenValidated(request, response, next) {
   const [, token] = request.headers.authorization?.split(' ') || [' ', ' '];
   if (!token)
     return response.status(401).send('Access denied. No token provided.');
   try {
-    const payload = jsonwebtoken.verify(token, PRIVATE_KEY);
+    const payload = jsonwebtoken.verify(token, process.env.PRIVATE_KEY);
     const userIdFromToken = typeof payload !== 'string' && payload.user;
-    if (!user && !userIdFromToken) {
+    if (!userIdFromToken) {
       return response.send(401).json({ message: 'Invalid token' });
     }
     request.headers['user'] = payload.user;
@@ -26,7 +20,5 @@ function tokenValidated(request, response, next) {
 }
 
 module.exports = {
-  user,
   tokenValidated,
-  PRIVATE_KEY,
 };
