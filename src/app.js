@@ -1,4 +1,4 @@
-// Setup básico do app.js | o cors é usado para permitir o uso em localhost (deve ser usado apenas em desenvolvimento)
+// Setup básico do app.js | o cors é usado para permitir o uso em localhost
 const express = require('express');
 const router = require('./router');
 const cors = require('cors');
