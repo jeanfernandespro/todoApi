@@ -2,6 +2,7 @@
 
 const express = require('express');
 const tasksController = require('./controllers/tasksController');
+const admTasksController = require('./controllers/admTasksController');
 const usersController = require('./controllers/usersController');
 const validate = require('./middlewares/validate');
 const authorizationToken = require('./middlewares/authorizationToken');
@@ -46,6 +47,10 @@ router.delete('/tasks/:id', validate.validateId, tasksController.deleteTask);
 // Rota que pega o usuario pelo params.id, para usar em delete e update | middlewares/validate.js >> validateId | controllers/usersController.js >> getUserByIdUser
 // Funções de controles não foram implementadas ainda.
 router.get('/users/:id', validate.validateId, usersController.getUserByIdUser);
+
+router.get('/users', usersController.getAllUsers);
+
+router.get('/admtasks', admTasksController.getAll);
 
 // EXPORTS -------------------------------------------------------------
 

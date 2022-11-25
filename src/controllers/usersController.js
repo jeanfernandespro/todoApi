@@ -2,8 +2,8 @@ const jsonwebtoken = require('jsonwebtoken');
 const usersModel = require('../models/usersModel');
 require('dotenv').config();
 
-const getAllUsers = async (_request, response) => {
-  const users = await usersModel.getAllUsers();
+const getAllUsers = async (request, response) => {
+  const users = await usersModel.getAllUsers(request.headers.user.id);
   return response.status(200).json(users);
 };
 

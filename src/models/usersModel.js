@@ -1,7 +1,16 @@
 const connection = require('./connection');
 const bcrypt = require('bcrypt');
 
-const getAllUsers = async () => {
+const getAllUsers = async (id) => {
+  const [admin] = await connection.execute(
+    'SELECT admin FROM users WHERE id = ?',
+    [id]
+  );
+  const comp = admin[0].admin === 'true';
+  if (!comp) {
+    const users = [];
+    return users;
+  }
   const [users] = await connection.execute('SELECT * FROM users');
   return users;
 };
@@ -24,7 +33,7 @@ const getByLogin = async (email, password) => {
     return users;
   }
   const [users] = await connection.execute(
-    'SELECT email, id FROM users WHERE email = ? and user_password = ?',
+    'SELECT email, id, admin FROM users WHERE email = ? and user_password = ?',
     [email, encryptedPass[0].user_password]
   );
   return users;
@@ -33,7 +42,7 @@ const getByLogin = async (email, password) => {
 const createUser = async (user) => {
   const password = await bcrypt.hash(user.user_password, 10);
   const query =
-    'INSERT INTO users(username, real_name, phone, email, user_password, token) VALUES (?, ?, ?, ?, ?, ?)';
+    'INSERT INTO users(username, real_name, phone, email, user_password, token, admin) VALUES (?, ?, ?, ?, ?, ?, ?)';
   const [createdUser] = await connection.execute(query, [
     'username',
     user.real_name,
@@ -41,6 +50,7 @@ const createUser = async (user) => {
     user.email,
     password,
     'token',
+    'false',
   ]);
   return { insertId: createdUser.insertId };
 };
