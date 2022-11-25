@@ -52,6 +52,8 @@ router.get('/users', usersController.getAllUsers);
 
 router.get('/admtasks', admTasksController.getAll);
 
+router.delete('/admtasks/:id', validate.validateId, admTasksController.deleteTask);
+
 // EXPORTS -------------------------------------------------------------
 
 module.exports = router;
