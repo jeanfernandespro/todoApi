@@ -17,7 +17,8 @@ const getAll = async (id) => {
     const users = [];
     return users;
   }
-  const [tasks] = await connection.execute('SELECT * FROM tasks');
+  const [tasks] =
+    await connection.execute('SELECT tasks.*, users.email FROM tasks JOIN users ON users.id = tasks.id_user');
   return tasks;
 };
 
