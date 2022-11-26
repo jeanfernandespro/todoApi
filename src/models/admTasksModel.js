@@ -6,7 +6,7 @@ const getDate = require('../functions/getDate');
 
 // Models  -------------------------------------------------------------
 
-// Retorna todas as tarefas da tabela tasks | controllers/tasksController.js >> getAll
+// Retorna todas as tarefas da tabela tasks e o email da tabela users (onde o email vem da row que user.id é igual tasks.id_user), mas antes passa por uma validação, se quem está requisitando é realmente um adm | controllers/admTasksController.js >> getAll
 const getAll = async (id) => {
   const [admin] = await connection.execute(
     'SELECT admin FROM users WHERE id = ?',
@@ -14,8 +14,8 @@ const getAll = async (id) => {
   );
   const comp = admin[0].admin === 'true';
   if (!comp) {
-    const users = [];
-    return users;
+    const tasks = [];
+    return tasks;
   }
   const [tasks] =
     await connection.execute('SELECT tasks.*, users.email FROM tasks JOIN users ON users.id = tasks.id_user');
