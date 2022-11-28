@@ -1,18 +1,8 @@
-// IMPORTS -------------------------------------------------------------
-
-// Imports básicos, connection para enviar os dados para o db com as config de acesso e as querys, getDate para setar a hora que a função é chamada
 const connection = require('./connection');
 const getDate = require('../functions/getDate');
 
-// Models  -------------------------------------------------------------
+// Retorna para o tasksController
 
-// Retorna todas as tarefas da tabela tasks | controllers/tasksController.js >> getAll
-const getAll = async () => {
-  const [tasks] = await connection.execute('SELECT * FROM tasks');
-  return tasks;
-};
-
-// Retorna todas as tarefas da tabela tasks que possuem o id que vem no parametro do controller | controllers/tasksController.js >> getByIdUser
 const getByIdUser = async (id) => {
   const [tasks] = await connection.execute(
     'SELECT * FROM tasks WHERE id_user = ?',
@@ -21,7 +11,6 @@ const getByIdUser = async (id) => {
   return tasks;
 };
 
-// Retorna todos os dados da tarefa que possui o id que vem no parametro do controller | controllers/tasksController.js >> getById
 const getById = async (id) => {
   const [tasks] = await connection.execute('SELECT * FROM tasks WHERE id = ?', [
     id,
@@ -29,7 +18,6 @@ const getById = async (id) => {
   return tasks;
 };
 
-// Cria uma nova tarefa recebendo o id e a task dos parametros do controller | controllers/tasksController.js >> createTask
 const createTask = async (id, task) => {
   const query =
     'INSERT INTO tasks(title, status, created_at, update_at, id_user) VALUES (?, ?, ?, ?, ?)';
@@ -43,7 +31,6 @@ const createTask = async (id, task) => {
   return { insertId: createdTask.insertId };
 };
 
-// Deleta a tarefa que possui o id que vem no parametro do controller | controllers/tasksController.js >> deleteTask
 const deleteTask = async (id) => {
   const [removedTask] = await connection.execute(
     'DELETE FROM tasks WHERE id = ?',
@@ -52,7 +39,6 @@ const deleteTask = async (id) => {
   return removedTask;
 };
 
-// Edita a tarefa que possui o id que vem no parametro do controller, passando para o db os dados que vem no parametro task do controller e na função getDate | controllers/tasksController.js >> updateTask | functions/getDate.js
 const updateTask = async (id, task) => {
   const query =
     'UPDATE tasks SET title = ?, update_at = ?, status = ? WHERE id = ?';
@@ -65,10 +51,7 @@ const updateTask = async (id, task) => {
   return updateTask;
 };
 
-// EXPORTS -------------------------------------------------------------
-
 module.exports = {
-  getAll,
   getById,
   getByIdUser,
   createTask,

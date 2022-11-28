@@ -37,6 +37,12 @@ const validateUser = (request, response, next) => {
   if (body.real_name === '') {
     return response.status(400).json({ message: 'Real name cannot be empty!' });
   }
+  if (body.username === undefined) {
+    return response.status(400).json({ message: 'Username is required!' });
+  }
+  if (body.username === '') {
+    return response.status(400).json({ message: 'Username cannot be empty!' });
+  }
   if (body.phone === undefined) {
     return response.status(400).json({ message: 'Phone is required!' });
   }
@@ -58,21 +64,9 @@ const validateUser = (request, response, next) => {
   next();
 };
 
-const validateListUser = (request, response, next) => {
-  const { body } = request;
-  if (body.email === undefined) {
-    return response.status(400).json({ message: 'Email is required!' });
-  }
-  if (body.email === '') {
-    return response.status(400).json({ message: 'Email cannot be empty!' });
-  }
-  next();
-};
-
 module.exports = {
   validateTitle,
   validateStatus,
   validateId,
   validateUser,
-  validateListUser,
 };

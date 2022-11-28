@@ -2,13 +2,10 @@ const jsonwebtoken = require('jsonwebtoken');
 const usersModel = require('../models/usersModel');
 require('dotenv').config();
 
+// Pega do usersModel
+
 const getAllUsers = async (request, response) => {
   const users = await usersModel.getAllUsers(request.headers.user.id);
-  return response.status(200).json(users);
-};
-
-const getUserByIdUser = async (request, response) => {
-  const users = await usersModel.getByIdUser(request.params.id);
   return response.status(200).json(users);
 };
 
@@ -47,7 +44,6 @@ const deleteUser = async (request, response) => {
 
 module.exports = {
   getAllUsers,
-  getUserByIdUser,
   getByLogin,
   createUser,
   deleteUser,

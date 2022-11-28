@@ -1,6 +1,8 @@
 const connection = require('./connection');
 const bcrypt = require('bcrypt');
 
+// Retorna para usersControllers
+
 const getAllUsers = async (id) => {
   const [admin] = await connection.execute(
     'SELECT admin FROM users WHERE id = ?',
@@ -14,13 +16,6 @@ const getAllUsers = async (id) => {
   const [users] = await connection.execute(
     'SELECT id, username, real_name, phone, email, admin FROM users'
   );
-  return users;
-};
-
-const getUserByIdUser = async (id) => {
-  const [users] = await connection.execute('SELECT * FROM users WHERE id = ?', [
-    id,
-  ]);
   return users;
 };
 
@@ -76,7 +71,6 @@ const deleteUser = async (id, idAdmin) => {
 
 module.exports = {
   getAllUsers,
-  getUserByIdUser,
   createUser,
   getByLogin,
   deleteUser,

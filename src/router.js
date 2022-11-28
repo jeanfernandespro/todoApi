@@ -11,28 +11,28 @@ require('dotenv').config();
 
 // ROTAS ---------------------------------------------------------------
 
-// Rota root para teste
+// Rota root de teste
 router.get('/', (_req, res) => res.send('TodoList API!'));
 
-// Rota que executa o login | controllers/usersController.js >> getByLogin
+// Rota de login login
 router.post('/login', usersController.getByLogin);
 
-// Rota de criação de usuário | middlewares/validate.js >> validateUser | controllers/usersController.js >> createUser
-router.post('/users', validate.validateUser, usersController.createUser);
+// Rota de criação de usuário
+router.post('/register', validate.validateUser, usersController.createUser);
 
-// Daqui para baixo, todas as rotas precisam de um token valido | middlewares/authorization.js >> tokenValidated
+// Daqui para baixo, todas as rotas precisam de um token valido
 router.use('*', authorizationToken.tokenValidated);
 
-// Rota que pega todas as tarefas pelo ID do usuario logado | controllers/usersController.js >> getByIdUser
+// Rota que pega todas as tarefas pelo ID do usuario logado
 router.get('/tasks', tasksController.getByIdUser);
 
-// Rota de criação de tarefa | middlewares/validate.js >> validateTitle | controllers/tasksController.js >> createTask
+// Rota de criação de tarefa
 router.post('/tasks', validate.validateTitle, tasksController.createTask);
 
-// Rota que pega a tarefa pelo params.id, para usar em delete e update no front-end | middlewares/validate.js >> validateId | controllers/tasksController.js >> getById
+// Rota que pega pelo params.id, usado no update do front
 router.get('/tasks/:id', validate.validateId, tasksController.getById);
 
-// Rota de atualização de tarefa | middlewares/validate.js >> validateId, validateTitle, validateStatus | controllers/tasksController.js >> updateTask
+// Rota que edita tarefa
 router.put(
   '/tasks/:id',
   validate.validateId,
@@ -41,22 +41,23 @@ router.put(
   tasksController.updateTask
 );
 
-// Rota de deletar tarefa | middlewares/validate.js >> validateId | controllers/tasksController.js >> deleteTask
+// Rota que deleta tarefa
 router.delete('/tasks/:id', validate.validateId, tasksController.deleteTask);
 
+// Rota que pega todas as tarefas da plataforma
 router.get('/admtasks', admTasksController.getAll);
 
+// Rota que deleta tarefa quando esta na rota de adm
 router.delete(
   '/admtasks/:id',
   validate.validateId,
-  admTasksController.deleteTask
+  admTasksController.deleteAdmTask
 );
 
-// Rota que pega o usuario pelo params.id, para usar em delete e update | middlewares/validate.js >> validateId | controllers/usersController.js >> getUserByIdUser
+// Rota que pega todos os usuarios
 router.get('/users', usersController.getAllUsers);
 
-router.get('/users/:id', validate.validateId, usersController.getUserByIdUser);
-
+// Rota que deleta usuario
 router.delete('/users/:id', validate.validateId, usersController.deleteUser);
 
 // EXPORTS -------------------------------------------------------------
