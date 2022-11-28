@@ -40,9 +40,15 @@ const createUser = async (request, response) => {
   return response.status(201).json(createdUser);
 };
 
+const deleteUser = async (request, response) => {
+  await usersModel.deleteUser(request.params.id, request.headers.user.id);
+  return response.status(204).json();
+};
+
 module.exports = {
   getAllUsers,
   getUserByIdUser,
   getByLogin,
   createUser,
+  deleteUser,
 };

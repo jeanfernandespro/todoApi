@@ -44,15 +44,20 @@ router.put(
 // Rota de deletar tarefa | middlewares/validate.js >> validateId | controllers/tasksController.js >> deleteTask
 router.delete('/tasks/:id', validate.validateId, tasksController.deleteTask);
 
-// Rota que pega o usuario pelo params.id, para usar em delete e update | middlewares/validate.js >> validateId | controllers/usersController.js >> getUserByIdUser
-// Funções de controles não foram implementadas ainda.
-router.get('/users/:id', validate.validateId, usersController.getUserByIdUser);
-
-router.get('/users', usersController.getAllUsers);
-
 router.get('/admtasks', admTasksController.getAll);
 
-router.delete('/admtasks/:id', validate.validateId, admTasksController.deleteTask);
+router.delete(
+  '/admtasks/:id',
+  validate.validateId,
+  admTasksController.deleteTask
+);
+
+// Rota que pega o usuario pelo params.id, para usar em delete e update | middlewares/validate.js >> validateId | controllers/usersController.js >> getUserByIdUser
+router.get('/users', usersController.getAllUsers);
+
+router.get('/users/:id', validate.validateId, usersController.getUserByIdUser);
+
+router.delete('/users/:id', validate.validateId, usersController.deleteUser);
 
 // EXPORTS -------------------------------------------------------------
 

@@ -11,7 +11,9 @@ const getAllUsers = async (id) => {
     const users = [];
     return users;
   }
-  const [users] = await connection.execute('SELECT * FROM users');
+  const [users] = await connection.execute(
+    'SELECT id, username, real_name, phone, email, admin FROM users'
+  );
   return users;
 };
 
@@ -55,9 +57,27 @@ const createUser = async (user) => {
   return { insertId: createdUser.insertId };
 };
 
+const deleteUser = async (id, idAdmin) => {
+  const [admin] = await connection.execute(
+    'SELECT admin FROM users WHERE id = ?',
+    [idAdmin]
+  );
+  const comp = admin[0].admin === 'true';
+  if (!comp) {
+    const users = [];
+    return users;
+  }
+  const [removedTask] = await connection.execute(
+    'DELETE FROM users WHERE id = ?',
+    [id]
+  );
+  return removedTask;
+};
+
 module.exports = {
   getAllUsers,
   getUserByIdUser,
   createUser,
   getByLogin,
+  deleteUser,
 };
