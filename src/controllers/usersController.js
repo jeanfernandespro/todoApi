@@ -38,8 +38,8 @@ const createUser = async (request, response) => {
 };
 
 const deleteUser = async (request, response) => {
-  await usersModel.deleteUser(request.params.id, request.headers.user.id);
-  return response.status(204).json();
+  const deletedUser = await usersModel.deleteUser(request.params.id, request.headers.user.id);
+  return response.status(200).json(deletedUser);
 };
 
 module.exports = {

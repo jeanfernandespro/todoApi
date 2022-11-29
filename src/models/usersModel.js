@@ -59,14 +59,22 @@ const deleteUser = async (id, idAdmin) => {
   );
   const comp = admin[0].admin === 'true';
   if (!comp) {
-    const users = [];
-    return users;
+    const removedUser = [];
+    return removedUser;
   }
-  const [removedTask] = await connection.execute(
+
+  if (id == idAdmin) {
+    const removedUser = null;
+    return removedUser;
+  }
+
+  await connection.execute('DELETE FROM tasks WHERE id_user = ?', [id]);
+
+  const [removedUser] = await connection.execute(
     'DELETE FROM users WHERE id = ?',
     [id]
   );
-  return removedTask;
+  return removedUser;
 };
 
 module.exports = {
