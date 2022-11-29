@@ -38,7 +38,11 @@ const createUser = async (request, response) => {
 };
 
 const deleteUser = async (request, response) => {
-  const deletedUser = await usersModel.deleteUser(request.params.id, request.headers.user.id);
+  const deletedUser = await usersModel.deleteUser(
+    request.params.id,
+    request.headers.user.id
+  );
+  
   return response.status(200).json(deletedUser);
 };
 

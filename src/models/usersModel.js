@@ -57,13 +57,9 @@ const deleteUser = async (id, idAdmin) => {
     'SELECT admin FROM users WHERE id = ?',
     [idAdmin]
   );
+  
   const comp = admin[0].admin === 'true';
-  if (!comp) {
-    const removedUser = [];
-    return removedUser;
-  }
-
-  if (id == idAdmin) {
+  if (!comp || id == idAdmin) {
     const removedUser = null;
     return removedUser;
   }
