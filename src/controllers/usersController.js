@@ -69,6 +69,12 @@ const createUser = async (request, response) => {
   return response.status(201).json(createdUser);
 };
 
+const getLogout = async (request, response) => {
+  const logout = await usersModel.getLogout(request.headers.user.id);
+
+  return response.status(204).json(logout);
+};
+
 const deleteUser = async (request, response) => {
   const deletedUser = await usersModel.deleteUser(
     request.params.id,
@@ -84,4 +90,5 @@ module.exports = {
   createUser,
   deleteUser,
   refreshToken,
+  getLogout,
 };

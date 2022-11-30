@@ -14,7 +14,7 @@ const getAllUsers = async (id) => {
     return users;
   }
   const [users] = await connection.execute(
-    'SELECT id, username, real_name, phone, email, admin FROM users'
+    'SELECT id, username, real_name, phone, email, admin, online FROM users'
   );
   return users;
 };
@@ -24,6 +24,12 @@ const getByLogin = async (email, password) => {
     'SELECT user_password FROM users WHERE email = ?',
     [email]
   );
+
+  await connection.execute('UPDATE users SET online = ? WHERE email = ?', [
+    'true',
+    email,
+  ]);
+
   const comp = await bcrypt.compare(password, encryptedPass[0].user_password);
   if (!comp) {
     const users = [];
@@ -52,12 +58,20 @@ const createUser = async (user) => {
   return { insertId: createdUser.insertId };
 };
 
+const getLogout = async (id) => {
+  const [logout] = await connection.execute(
+    'UPDATE users SET online = ? WHERE id = ?',
+    ['false', id]
+  );
+  return logout;
+};
+
 const deleteUser = async (id, idAdmin) => {
   const [admin] = await connection.execute(
     'SELECT admin FROM users WHERE id = ?',
     [idAdmin]
   );
-  
+
   const comp = admin[0].admin === 'true';
   if (!comp || id == idAdmin) {
     const removedUser = null;
@@ -77,5 +91,6 @@ module.exports = {
   getAllUsers,
   createUser,
   getByLogin,
+  getLogout,
   deleteUser,
 };

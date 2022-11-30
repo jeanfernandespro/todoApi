@@ -20,9 +20,11 @@ router.post('/login', usersController.getByLogin);
 // Rota de criação de usuário
 router.post('/register', validate.validateUser, usersController.createUser);
 
-
 // Daqui para baixo, todas as rotas precisam de um token valido
 router.use('*', authorizationToken.tokenValidated);
+
+// Rota de logout
+router.put('/logout', usersController.getLogout);
 
 // Rota de refresh do token
 router.post('/refresh', usersController.refreshToken);
