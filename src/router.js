@@ -20,8 +20,12 @@ router.post('/login', usersController.getByLogin);
 // Rota de criação de usuário
 router.post('/register', validate.validateUser, usersController.createUser);
 
+
 // Daqui para baixo, todas as rotas precisam de um token valido
 router.use('*', authorizationToken.tokenValidated);
+
+// Rota de refresh do token
+router.post('/refresh', usersController.refreshToken);
 
 // Rota que pega todas as tarefas pelo ID do usuario logado
 router.get('/tasks', tasksController.getByIdUser);

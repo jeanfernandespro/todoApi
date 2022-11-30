@@ -22,10 +22,42 @@ const getByLogin = async (request, response) => {
       { user: user[0] },
       process.env.PRIVATE_KEY,
       {
-        expiresIn: '1d',
+        expiresIn: Number(process.env.TOKEN_E),
       }
     );
-    return response.status(200).json({ data: { user: user[0], token } });
+    const refreshToken = jsonwebtoken.sign(
+      { user: user[0] },
+      process.env.PRIVATE_KEY,
+      {
+        expiresIn: Number(process.env.TOKEN_R),
+      }
+    );
+    return response
+      .status(200)
+      .json({ data: { user: user[0], token, refreshToken } });
+  } catch (error) {
+    console.log(error);
+    return response.send(error);
+  }
+};
+
+const refreshToken = async (request, response) => {
+  try {
+    const user = request.headers.user;
+    const token = jsonwebtoken.sign({ user: user }, process.env.PRIVATE_KEY, {
+      expiresIn: Number(process.env.TOKEN_E),
+    });
+
+    const refreshToken = jsonwebtoken.sign(
+      { user: user },
+      process.env.PRIVATE_KEY,
+      {
+        expiresIn: Number(process.env.TOKEN_R),
+      }
+    );
+    return response
+      .status(200)
+      .json({ data: { user: user, token, refreshToken } });
   } catch (error) {
     console.log(error);
     return response.send(error);
@@ -42,7 +74,7 @@ const deleteUser = async (request, response) => {
     request.params.id,
     request.headers.user.id
   );
-  
+
   return response.status(200).json(deletedUser);
 };
 
@@ -51,4 +83,5 @@ module.exports = {
   getByLogin,
   createUser,
   deleteUser,
+  refreshToken,
 };
