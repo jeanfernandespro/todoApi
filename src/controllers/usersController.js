@@ -1,5 +1,6 @@
 const jsonwebtoken = require('jsonwebtoken');
 const usersModel = require('../models/usersModel');
+
 require('dotenv').config();
 
 // Pega do usersModel
@@ -42,7 +43,11 @@ const getByLogin = async (request, response) => {
 };
 
 const refreshToken = async (request, response) => {
+  const [, oldToken] = request.headers.authorization?.split(' ') || [' ', ' '];
+  const id_user = request.headers.user.id;
   try {
+    await usersModel.invalidToken(oldToken, id_user);
+
     const user = request.headers.user;
     const token = jsonwebtoken.sign({ user: user }, process.env.PRIVATE_KEY, {
       expiresIn: Number(process.env.TOKEN_E),
@@ -59,6 +64,7 @@ const refreshToken = async (request, response) => {
       .status(200)
       .json({ data: { user: user, token, refreshToken } });
   } catch (error) {
+    await usersModel.invalidToken(oldToken);
     console.log(error);
     return response.send(error);
   }
@@ -70,6 +76,9 @@ const createUser = async (request, response) => {
 };
 
 const getLogout = async (request, response) => {
+  const [, oldToken] = request.headers.authorization?.split(' ') || [' ', ' '];
+  const id_user = request.headers.user.id;
+  await usersModel.invalidToken(oldToken, id_user);
   const logout = await usersModel.getLogout(request.headers.user.id);
 
   return response.status(204).json(logout);

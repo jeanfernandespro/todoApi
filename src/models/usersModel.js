@@ -1,4 +1,5 @@
 const connection = require('./connection');
+const getDate = require('../functions/getDate');
 const bcrypt = require('bcrypt');
 
 // Retorna para usersControllers
@@ -25,21 +26,23 @@ const getByLogin = async (email, password) => {
     [email]
   );
 
-  await connection.execute('UPDATE users SET online = ? WHERE email = ?', [
-    'true',
-    email,
-  ]);
-
   const comp = await bcrypt.compare(password, encryptedPass[0].user_password);
   if (!comp) {
     const users = [];
     return users;
   }
-  const [users] = await connection.execute(
+
+  await connection.execute('UPDATE users SET online = ? WHERE email = ?', [
+    'true',
+    email,
+  ]);
+
+  const [user] = await connection.execute(
     'SELECT email, id, admin FROM users WHERE email = ? and user_password = ?',
     [email, encryptedPass[0].user_password]
   );
-  return users;
+
+  return user;
 };
 
 const createUser = async (user) => {
@@ -64,6 +67,22 @@ const getLogout = async (id) => {
     ['false', id]
   );
   return logout;
+};
+
+const getInvalidedToken = async (token) => {
+  const [invalidedToken] = await connection.execute(
+    'SELECT token FROM tokens WHERE token = ?',
+    [token]
+  );
+  return invalidedToken;
+};
+
+const invalidToken = async (token, id_user) => {
+  const [invalidedToken] = await connection.execute(
+    'INSERT INTO tokens(token, created_at, id_user) VALUES (?, ?, ?)',
+    [token, getDate.getDate(), id_user]
+  );
+  return invalidedToken;
 };
 
 const deleteUser = async (id, idAdmin) => {
@@ -93,4 +112,6 @@ module.exports = {
   getByLogin,
   getLogout,
   deleteUser,
+  invalidToken,
+  getInvalidedToken,
 };
