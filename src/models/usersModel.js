@@ -25,11 +25,14 @@ const getByLogin = async (email, password) => {
     'SELECT user_password FROM users WHERE email = ?',
     [email]
   );
+  
+  if (!encryptedPass[0]) {
+    return null;
+  }
 
   const comp = await bcrypt.compare(password, encryptedPass[0].user_password);
   if (!comp) {
-    const users = [];
-    return users;
+    return null;
   }
 
   await connection.execute('UPDATE users SET online = ? WHERE email = ?', [
@@ -38,7 +41,7 @@ const getByLogin = async (email, password) => {
   ]);
 
   const [user] = await connection.execute(
-    'SELECT email, id, admin FROM users WHERE email = ? and user_password = ?',
+    'SELECT email, id, admin FROM users WHERE email = ? and user_password = ? LIMIT 1',
     [email, encryptedPass[0].user_password]
   );
 

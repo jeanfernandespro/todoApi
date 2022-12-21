@@ -1,10 +1,17 @@
 const validateTitle = (request, response, next) => {
   const { body } = request;
+  const { headers } = request;
   if (body.title === undefined) {
     return response.status(400).json({ message: 'Title is required!' });
   }
   if (body.title === '') {
     return response.status(400).json({ message: 'Title cannot be empty!' });
+  }
+  if (headers.user.id === undefined) {
+    return response.status(400).json({ message: 'ID is required!' });
+  }
+  if (headers.user.id === '') {
+    return response.status(400).json({ message: 'ID cannot be empty!' });
   }
   next();
 };
