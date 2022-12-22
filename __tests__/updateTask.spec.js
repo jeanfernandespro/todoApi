@@ -16,7 +16,7 @@ describe('Teste de atualização de tarefas', () => {
     };
 
     const res = await request(app)
-      .put(`/tasks/97`)
+      .put(`/tasks/2`)
       .set('Authorization', `Bearer ${process.env.AUTH_TOKEN}`)
       .send(body);
 
@@ -24,7 +24,7 @@ describe('Teste de atualização de tarefas', () => {
 
     const [updatedTask] = await connection.execute(
       'SELECT * FROM tasks WHERE id = ?',
-      [97]
+      [2]
     );
 
     expect(updatedTask[0].title).toEqual('updated title');
